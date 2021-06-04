@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./nginx/conf.d/:/etc/nginx/conf.d/
+      - ./code:/var/www
+    links:
+      - php
+    networks:
+      - main_network
+
+  php:
+    build: ./php
+    volumes:
+      - ./code:/var/www
+    networks:
+      - main_network
+
+networks:
+  main_network:
+    driver: bridge
